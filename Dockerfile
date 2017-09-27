@@ -11,7 +11,6 @@ WORKDIR $APP_HOME
 COPY scripts/apt_install.sh scripts/apt_install.sh
 COPY vendor/apt vendor/apt
 RUN /bin/sh scripts/apt_install.sh
-# RUN apt install nodejs
 
 ARG RAILS_ENV
 ENV RAILS_ENV ${RAILS_ENV:-production}
@@ -20,7 +19,6 @@ ENV RAILS_ENV ${RAILS_ENV:-production}
 WORKDIR $APP_HOME
 COPY vendor/bundle vendor/bundle
 COPY Gemfile Gemfile
-# COPY Gemfile.lock Gemfile.lock
 
 # Prepare App
 COPY . $APP_HOME
