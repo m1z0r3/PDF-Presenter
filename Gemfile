@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 gem 'sinatra', '~> 2.0'
 gem 'sinatra-contrib', '~> 2.0'
+gem 'activesupport', '~> 5.1', '>= 5.1.4'
 gem 'slim', '~> 3.0', '>= 3.0.8'
 gem 'stylus', '~> 1.0', '>= 1.0.2'
 gem 'coffee-script', '~> 2.4', '>= 2.4.1'

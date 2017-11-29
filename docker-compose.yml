@@ -7,7 +7,7 @@ services:
     build: .
     command: bundle exec ruby app.rb -o 0.0.0.0
     ports:
-      - 80:4567
+      - 8080:4567
     volumes:
       - .:/usr/local/pdf_presenter
       - bundle-data:/usr/local/bundle

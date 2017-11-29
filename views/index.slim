@@ -6,9 +6,9 @@ html
   head
     title PDF Presenter
     link rel='stylesheet' href='/css/main.css'
-    script type='text/javascript' src='/jquery.min.js'
-    script type='text/javascript' src='/js/main.js'
+    script type='application/javascript' src='/jquery.min.js'
+    script type='application/javascript' src='/js/main.js'
   body
     .slides
       #pages
-        object data='/pages/1#toolbar=0&navpanes=0&scrollbar=0' type='application/pdf' page='1'
+        object data="/pages/#{@filename}/1#toolbar=0&navpanes=0&scrollbar=0" type='application/pdf' page='1'

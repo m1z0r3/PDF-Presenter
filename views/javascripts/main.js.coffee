@@ -9,16 +9,23 @@ class PageController
   _init: (el) ->
     @current = 1;
     @current_max = 1;
+    @filename = window.location.pathname.split('/')[2]
+    # @load_first_page(@filename)
+    console.log(@filename)
     @get_current_max()
 
   _event: ->
     $('body').on 'keydown', (e) =>
       @keyOperation(e)
 
+  load_first_page: (filename) =>
+    first = $('#pages').find("[page='1']")
+    first.attr('dat', "/pages/#{filename}/1#toolbar=0&navpanes=0&scrollbar=0")
+
   get_current_max: (url, page) =>
     $.ajax(
       type: 'GET'
-      url: '/current_max_page'
+      url: "/current_max_page/#{@filename}"
     ).done((data) =>
       console.log 'success!!'
       @current_max = data['page']
@@ -43,7 +50,7 @@ class PageController
       if @current < @current_max
         @current += 1;
         if $('#pages').find("[page='#{@current}']").length == 0
-          $('#pages').append("<object data='/pages/#{@current}#toolbar=0&navpanes=0&scrollbar=0' type='application/pdf' page='#{@current}'></object>")
+          $('#pages').append("<object data='/pages/#{@filename}/#{@current}#toolbar=0&navpanes=0&scrollbar=0' type='application/pdf' page='#{@current}'></object>")
         @showPage(@current)
 
   showPage: (page) ->
