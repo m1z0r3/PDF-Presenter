@@ -11,14 +11,15 @@ require 'stylus/tilt'
 require 'coffee-script'
 require 'combine_pdf'
 require 'pry'
+require 'securerandom'
 
 get '/' do
-  slim :index
+  slim :home
 end
 
 get '/slide/:filename' do
   @filename = params[:filename]
-  slim :index
+  slim :slide
 end
 
 get '/slide/:filename/controller/:password' do
@@ -26,6 +27,8 @@ get '/slide/:filename/controller/:password' do
   @current_max_page = current_max_page(params[:filename])
   @filename = params[:filename]
   @password = params[:password]
+  @slide_url = request.host + "/slide/#{@filename}"
+  @controller_url = request.url
   slim :controller
 end
 
@@ -72,12 +75,14 @@ end
 
 post '/upload' do
   file = params[:file]
-  password = params[:password]
+  password = SecureRandom.hex(64)
   filename = file[:filename]
   tempfile = file[:tempfile]
   extname = File.extname(filename)
 
-  return 'Password is blank!' if password.blank?
+  SecureRandom.hex(64)
+
+  # return 'Password is blank!' if password.blank?
   return 'The file is not PDF!' if extname != '.pdf'
 
   basename = File.basename(filename, extname)
@@ -86,7 +91,10 @@ post '/upload' do
   File.open("pdfs/#{filename}", 'w') { |f| f.write tempfile.read }
   File.open("pdfs/#{basename}.pass", 'w') { |f| f.write password }
   File.open("pdfs/#{basename}.current", 'w') { |f| f.write '1' }
-  redirect '/upload'
+
+  @url = request.host + "/slide/#{basename}/controller/#{password}"
+
+  redirect "/slide/#{basename}/controller/#{password}"
 end
 
 def return_400
