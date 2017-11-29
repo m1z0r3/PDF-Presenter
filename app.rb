@@ -75,14 +75,11 @@ end
 
 post '/upload' do
   file = params[:file]
-  password = SecureRandom.hex(64)
+  password = SecureRandom.hex(16)
   filename = file[:filename]
   tempfile = file[:tempfile]
   extname = File.extname(filename)
 
-  SecureRandom.hex(64)
-
-  # return 'Password is blank!' if password.blank?
   return 'The file is not PDF!' if extname != '.pdf'
 
   basename = File.basename(filename, extname)
